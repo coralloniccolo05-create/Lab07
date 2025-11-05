@@ -37,9 +37,14 @@ class View:
 
         # --- Sezione 2: Filtraggio ---
         # TODO
+        self.seleziona_museo = ft.Dropdown(label="Museo", width=300)
+        self.seleziona_epoca = ft.Dropdown(label="Epoca", width=300)
 
         # Sezione 3: Artefatti
         # TODO
+        self.mostra_artefatto = ft.ElevatedButton(text='Mosra Artefatti')
+        self.lista_artefatti = ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
+
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
@@ -54,9 +59,16 @@ class View:
 
             # Sezione 2: Filtraggio
             # TODO
+            ft.Row(spacing=100,
+                   controls=[self.seleziona_museo, self.seleziona_epoca],
+                   alignment=ft.MainAxisAlignment.CENTER),
+            ft.Divider(),
+
 
             # Sezione 3: Artefatti
             # TODO
+            self.mostra_artefatto,
+            self.lista_artefatti
         )
 
         self.page.scroll = "adaptive"
