@@ -37,8 +37,14 @@ class View:
 
         # --- Sezione 2: Filtraggio ---
         # TODO
-        self.seleziona_museo = ft.Dropdown(label="Museo", width=300)
-        self.seleziona_epoca = ft.Dropdown(label="Epoca", width=300)
+        self.seleziona_museo = ft.Dropdown(label="Museo",
+                                    options= [ft.dropdown.Option("1","*")],
+                                           width=300)
+
+        self.seleziona_epoca = ft.Dropdown(label="Epoca",
+                                    options= [ft.dropdown.Option("1","*")],
+                                           width=300,
+                                           hint_text='Select the era')
 
         # Sezione 3: Artefatti
         # TODO
