@@ -65,13 +65,13 @@ class Controller:
             museo=museo_key,
             epoca=epoca_key
         )
-        # --- 2. GESTISCI IL CASO 'None' (Errore DAO/Connessione) ---
+
         if lista_artefatti is None:
             self._view.append_output("Errore: Impossibile recuperare i dati dal database.", bold=True)
             self._view.page.update()
             return
 
-        # --- 3. GESTISCI IL CASO 'Lista Vuota' (Nessun risultato) ---
+
         if len(lista_artefatti) == 0:
             self._view.append_output("Nessun artefatto trovato con i filtri selezionati.", bold=True)
             self._view.page.update()
