@@ -21,28 +21,17 @@ class View:
         # Controller
         self.controller = None
 
-    def show_alert(self, messaggio):
-        self.alert.show_alert(messaggio)
-
-    def set_controller(self, controller):
-        self.controller = controller
-
-    def update(self):
-        self.page.update()
-
-    def load_interface(self):
-        """ Crea e aggiunge gli elementi di UI alla pagina e la aggiorna. """
         # --- Sezione 1: Intestazione ---
         self.txt_titolo = ft.Text(value="Musei di Torino", size=38, weight=ft.FontWeight.BOLD)
 
         # --- Sezione 2: Filtraggio ---
         # TODO
         self.seleziona_museo = ft.Dropdown(label="Museo",
-                                    options= [ft.dropdown.Option("1","*")],
+                                           options=[],
                                            width=300)
 
         self.seleziona_epoca = ft.Dropdown(label="Epoca",
-                                    options= [ft.dropdown.Option("1","*")],
+                                           options=[],
                                            width=300,
                                            hint_text='Select the era')
 
@@ -51,9 +40,28 @@ class View:
         self.mostra_artefatto = ft.ElevatedButton(text='Mosra Artefatti')
         self.lista_artefatti = ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
 
-
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
+
+    def show_alert(self, messaggio):
+        self.alert.show_alert(messaggio)
+
+    def set_controller(self, controller):
+        self.controller = controller
+        if self.controller:
+            self.controller.popola_dd_musei()
+            self.controller.popola_dd_epoca()
+            self.update()
+
+    def update(self):
+        self.page.update()
+
+    def load_interface(self):
+        """ Crea e aggiunge gli elementi di UI alla pagina e la aggiorna. """
+
+        self.seleziona_museo.on_change = self.controller.museo_selezionato_change
+        self.seleziona_epoca.on_change = self.controller.epoca_selezionata_change
+        self.mostra_artefatto.on_click = lambda e: self.controller.mostra_artefatti_filtrati()
 
         # --- Layout della pagina ---
         self.page.add(
@@ -85,3 +93,10 @@ class View:
         self.page.theme_mode = ft.ThemeMode.DARK if self.toggle_cambia_tema.value else ft.ThemeMode.LIGHT
         self.toggle_cambia_tema.label = "Tema scuro" if self.toggle_cambia_tema.value else "Tema chiaro"
         self.page.update()
+
+    def append_output(self, message: str, bold: bool = False):
+        text_weight = ft.FontWeight.BOLD if bold else ft.FontWeight.NORMAL
+        self.lista_artefatti.controls.append(ft.Text(value=message, weight=text_weight))
+
+    def clear_output(self):
+        self.lista_artefatti.controls.clear()
